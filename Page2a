@@ -5,10 +5,17 @@ import numpy as np
 
 root=tk.Tk()
 root.title('Desks')
-canvas1 = tk.Canvas(root, width = 400, height = 400)
-canvas1.pack()
-entry1 = tk.Entry(root)
-canvas1.create_window(200,140, window = entry1)
-tk.Label(root, text = 'Desks', width = 10)#.grid(row=0, column=0)
-tk.Label(root, text = 'Day:', width = 10)#.grid(row=1, column=0)
+entry_day = tk.Entry(root)
+entry_day.grid(row =1, column =1)
+tk.Label(root, text = 'Desks').grid(row=0, column=0, columnspan = 2, sticky=tk.W+tk.E)
+tk.Label(root, text = 'Day').grid(row=1, column=0)
+def getDay():
+    day = entry_day.get()
+    try:
+        int(day)
+    except:
+        tk.messagebox.showerror('Error', 'Please enter an integer')
+    if int(day)<=0 or int(day)>31:
+        tk.messagebox.showerror('Error', 'Please enter a valid number')
+button1 = tk.Button(text='Next', command = getDay).grid(row = 2, column =0, columnspan =2)
 root.mainloop()
