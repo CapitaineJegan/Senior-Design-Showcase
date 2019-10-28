@@ -37,6 +37,18 @@ def savep2Info(p1,p2,p3,p4,a1,a2,a3,a4):
     p2Categories.append(p3)
     p2Categories.append(p4)
     print(p2Categories)
+    try:
+        int(p3)
+    except:
+        tk.messagebox.showerror('Error', 'Please enter an integer for day of the month')
+    if int(p3)<=0 or int(p3)>31:
+        tk.messagebox.showerror('Error', 'Please enter a valid number for day of the month')
+    try:
+        int(p4)
+    except:
+        tk.messagebox.showerror('Error', 'Please enter an integer for hour')
+    if int(p4)<0 or int(p4)>23:
+        tk.messagebox.showerror('Error', 'Please enter a valid number for hour')
 
 def makeP2():
     ###Page 2a and 2b code###
