@@ -37,6 +37,10 @@ def savep2Info(p1,p2,p3,p4,a1,a2,a3,a4):
     p2Categories.append(p3)
     p2Categories.append(p4)
     print(p2Categories)
+    if len(p1) != 3 or p1.isalpha() == False:
+        tk.messagebox.showerror('Error', 'Please enter string with 3 letters for origin station')
+    if len(p2) != 3 or p2.isalpha() == False:
+        tk.messagebox.showerror('Error', 'Please enter string with 3 letters for destination station')
     try:
         int(p3)
     except:
