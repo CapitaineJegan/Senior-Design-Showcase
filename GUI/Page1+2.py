@@ -19,15 +19,15 @@ def getCSV():#for taking the csv files in the first page button
     import_file_path = filedialog.askopenfilename()
 #    df = pd.read_csv ('Oct 2019 raw schedule.csv')
     print(import_file_path)
-    df = pd.read_csv (import_file_path)
-    
+    df = pd.read_excel (import_file_path, usecols='A:F')
+
 #    ntpath.basename(import_file_path)
-    
+
     searchbar.delete(0, tk.END)
     searchbar.insert(0, import_file_path)
-    
+
     filePath.set(import_file_path)
-    
+
     print(df)
 
 def savep2Info(p1,p2,p3,p4,a1,a2,a3,a4):
@@ -42,19 +42,19 @@ def makeP2():
     ###Page 2a and 2b code###
     page2b=tk.Toplevel()
     page2b.title("Desks & Flights")
-    
+
     #variables for the entries in 2b, basically what you'd type in to search.
     p2orig = tk.StringVar(page2b)
     p2dest = tk.StringVar(page2b)
     p2day2 = tk.StringVar(page2b)
     p2hour = tk.StringVar(page2b)
-    
+
     #stores a value for if the All boxes are ticked. 1 is True, 0 is False.
     origAll = tk.IntVar()
     destAll = tk.IntVar()
     day2All = tk.IntVar()
     hourAll = tk.IntVar()
-    
+
     ###Page 2a code###
 #    canvas1 = tk.Canvas(page2b, width = 400, height = 400)
 #    canvas1.pack()
@@ -66,13 +66,13 @@ def makeP2():
     entry_day.grid(row =1, column =1)
     tk.Label(page2b, text = 'Desks').grid(row=0, column=0, columnspan = 2, sticky=tk.W+tk.E)
     tk.Label(page2b, text = 'Day').grid(row=1, column=0, sticky="W")
-    ###Page 2a code end### 
-    
+    ###Page 2a code end###
+
     #canvas1 = tk.Canvas(root, width=800,height=400).grid()
     #Flights label, pair on the right side of Desks with column span of 3 instead of 2
     #to accommodate the "All" checkboxes
     tk.Label(page2b, text="Flights").grid(row=0, column=2, columnspan=3, sticky="W"+"E")
-    
+
     #Origin
     tk.Label(page2b, text="Origin").grid(row=1, column=2, sticky="W")
     entryOrig = tk.Entry(page2b, textvariable = p2orig)
@@ -81,7 +81,7 @@ def makeP2():
     #listbox.grid(row=1, column=3)
     cOrig = tk.Checkbutton(page2b, text="All", variable=origAll)
     cOrig.grid(row=1, column=4)
-    
+
     #Destination
     tk.Label(page2b, text="Destination").grid(row=2, column=2, sticky="W")
     entryDest = tk.Entry(page2b, textvariable = p2dest)
@@ -90,7 +90,7 @@ def makeP2():
     #listbox.grid(row=2, column=3)
     cDest = tk.Checkbutton(page2b, text="All", variable=destAll)
     cDest.grid(row=2, column=4)
-    
+
     #Day
     tk.Label(page2b, text="Day").grid(row=3, column=2, sticky="W")
     entryDay2 = tk.Entry(page2b, textvariable = p2day2)
@@ -99,7 +99,7 @@ def makeP2():
     #listbox.grid(row=3, column=3)
     cDay = tk.Checkbutton(page2b, text="All", variable=day2All)
     cDay.grid(row=3, column=4)
-    
+
     #Hour
     tk.Label(page2b, text="Hour").grid(row=4, column=2, sticky="W")
     entryHour = tk.Entry(page2b, textvariable = p2hour)
@@ -108,9 +108,9 @@ def makeP2():
     #listbox.grid(row=4, column=3)
     cHour = tk.Checkbutton(page2b, text="All", variable=hourAll)
     cHour.grid(row=4, column=4)
-    
+
     tk.Button(page2b, text="Back", command=lambda: page2b.destroy()).grid(row=5, column=0, sticky="W"+"E") #Back button
-    
+
     p2Next = tk.Button(page2b, text="Next", command=lambda: savep2Info(p2orig.get(),p2dest.get(),p2day2.get(),p2hour.get(),origAll.get(),destAll.get(),day2All.get(),hourAll.get()))
     p2Next.grid(row=5, column=3, columnspan=2, sticky="W"+"E") #Next button
     ###Page 2b code end###
@@ -124,7 +124,7 @@ def checkday(day):
         tk.messagebox.showerror('Error', 'Please enter an integer for day of the month')
     if int(day)<=0 or int(day)>31:
         tk.messagebox.showerror('Error', 'Please enter a valid number for day of the month')
-        
+
 def checkhour(hour):
     try:
         int(hour)
@@ -132,7 +132,7 @@ def checkhour(hour):
         tk.messagebox.showerror('Error', 'Please enter an integer for hour')
     if int(hour)<0 or int(hour)>23:
         tk.messagebox.showerror('Error', 'Please enter a valid number for hour')
-        
+
 canvas1 = tk.Canvas(root, width = 400, height = 400, bg = 'lightsteelblue2', relief = 'raised')
 #canvas1.grid()
 
