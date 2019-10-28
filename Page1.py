@@ -6,18 +6,22 @@ import numpy as np
 root= tk.Tk()
 root.title('Upload Schedule')
 
-#canvas1 = tk.Canvas(root, width = 400, height = 400, bg = 'lightsteelblue2', relief = 'raised')
-#canvas1.grid()
-filePath = tk.Entry(root)
-filePath.grid(row=0, column=0)
+
+inputvar = tk.StringVar(root)
 def getCSV ():
-    global df
+    global full_df
 
     import_file_path = filedialog.askopenfilename()
-    df = pd.read_csv ('Oct 2019 raw schedule.csv')
-    #print(df)
-    filePath.insert(root, import_file_path)
+    full_df = pd.read_excel (import_file_path, usecols = 'A:F')
+    #print(import_file_path)
 
+    inputvar.set(import_file_path)
+    #print(full_df)
+    #filePath.insert(0,inputvar)
+    #print(inputvar)
+
+filePath = tk.Entry(text = inputvar)
+filePath.grid(row=0, column=0)
 
 browseButton_CSV = tk.Button(text="      Browse     ", command=getCSV, bg='green', fg='white', font=('helvetica', 12, 'bold')).grid(row=0,column=1)
 #searchbar = tk.Entry(root)
