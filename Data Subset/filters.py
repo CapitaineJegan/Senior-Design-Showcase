@@ -1,11 +1,10 @@
 import pandas as pd 
 import csv 
 import numpy
-#desk filters
 df= pd.read_csv('oct_2019 MELT.csv')
 
 
-
+#desk filter
 def desk_filter(day,desk):
     desk_new=[]
     for i in desk:
