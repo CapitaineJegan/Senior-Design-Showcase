@@ -6,12 +6,16 @@ df= pd.read_csv('oct_2019 MELT.csv')
 
 
 
-# def desk_filter(day,desk):
-#     df1= df[df.Day.isin(day)]
-#     df2=df1[df1.Desk.isin(desk)]  #needs to be a string
-#     return (df2)
+def desk_filter(day,desk):
+    desk_new=[]
+    for i in desk:
+        desk_new.append(str(i))
+        
+    df1= df[df.Day.isin(day)]
+    df2=df1[df1.Desk.isin(desk_new)]  #needs to be a string
+    return (df2)
     
-# desk_filter([1],['3'])
+desk_filter([1],[3])
 
 #flight filter
 def flight_filter(org,dest,day,hour):
