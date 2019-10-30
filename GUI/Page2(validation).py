@@ -21,6 +21,6 @@ def only_numbers(char):
     return char.isdigit()
 
 validation = root.register(only_numbers)
-entry = tk.Entry(root, validate="key", validatecommand=(validation, '%S')).grid(row =1, column =1)
+entry = tk.Entry(root, validate="key", validatecommand=(validation, '%S'),font=("Helvetica", 16), bg = 'black',fg = 'light green').grid(row =1, column =1)
 button1 = tk.Button(text='Next').grid(row = 2, column =0, columnspan =2)
 root.mainloop()
