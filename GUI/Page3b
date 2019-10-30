@@ -7,7 +7,7 @@ header = []
 header = ['FlightID', 'Flight#', 'Origin', 'Destination', 'Dep. Time','Arrival time', 'Equipment', 'Mileage', 'Release time', 'Status','Desk#']
 results = []
 layout = tabulate(results, headers = header)
-print(layout)
+#print(layout)
 page3b= tk.Tk()
-tk.Label(page3b, text=layout).grid(row=0, column=0)
+tk.Label(page3b, text=layout,font=("Helvetica", 16)).grid(row=0, column=0)
 page3b.mainloop()
