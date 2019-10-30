@@ -39,12 +39,12 @@ def flight_filter(org,dest,day,hour):
     if len(org)>0 and len(dest)==0 and len(day)>0 and len(hour)>0:  #no dest
         fl1=df[df.Org.isin(org)]
         fl2=fl1[fl1.Day.isin(day)]
-        fl3=fl2[fl2.RlsHR.isin(hour)]
+        fl3=fl2[fl2.Rls_HR.isin(hour)]
         return f13
     if len(org)>0 and len(dest)>0 and len(day)==0 and len(hour)>0:  #no day
         fl1=df[df.Org.isin(org)]
         fl2=fl1[fl1.Dst.isin(dest)]
-        fl3=fl2[fl2.RlsHR.isin(hour)]
+        fl3=fl2[fl2.Rls_HR.isin(hour)]
         return f13
     if len(org)>0 and len(dest)>0 and len(day)>0 and len(hour)==0:  #no hour
         fl1=df[df.Org.isin(org)]
@@ -54,11 +54,11 @@ def flight_filter(org,dest,day,hour):
         
     if len(org)==0 and len(dest)==0 and len(day)>0 and len(hour)>0:  #no org,dest
         fl1=df[df.Day.isin(day)]
-        fl2=fl1[fl1.RlsHR.isin(hour)]
+        fl2=fl1[fl1.Rls_HR.isin(hour)]
         return f12
     if len(org)==0 and len(dest)>0 and len(day)==0 and len(hour)>0:  #no org,day
         fl1=df[df.Dst.isin(dest)]
-        fl2=fl1[fl1.RlsHR.isin(hour)]
+        fl2=fl1[fl1.Rls_HR.isin(hour)]
         return f12
     if len(org)==0 and len(dest)>0 and len(day)>0 and len(hour)==0:  #no org,hour
         fl1=df[df.Dst.isin(dest)]
@@ -71,7 +71,7 @@ def flight_filter(org,dest,day,hour):
         return f12
     if len(org)>0 and len(dest)==0 and len(day)==0 and len(hour)>0:  #no dest,day
         fl1=df[df.Org.isin(org)]
-        fl2=fl1[fl1.RlsHR.isin(hour)]
+        fl2=fl1[fl1.Rls_HR.isin(hour)]
         return f12
     if len(org)>0 and len(dest)>0 and len(day)==0 and len(hour)==0:  #no day,hour
         fl1=df[df.Org.isin(org)]
@@ -88,7 +88,7 @@ def flight_filter(org,dest,day,hour):
         fl1=df[df.Day.isin(day)]
         return f11
     if len(org)==0 and len(dest)==0 and len(day)==0 and len(hour)>0:  #only hour
-        fl1=df[df.RlsHR.isin(hour)]
+        fl1=df[df.Rls_HR.isin(hour)]
         return f11
         
         
@@ -96,4 +96,6 @@ def flight_filter(org,dest,day,hour):
         return df
 
 flight_filter([],['ATL'],[2],[19])
+
+
 
