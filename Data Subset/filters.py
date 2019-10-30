@@ -24,6 +24,7 @@ desk_filter([1],[3])
         #destination: list of strings
         #day: list of integers
         #hour: list of integers
+    #Description: it checks whether there is an empty input(s) 
     #Return:new dataframe with filtered flights by origin,destination,day, and hour
 
 def flight_filter(org,dest,day,hour):
