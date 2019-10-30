@@ -31,7 +31,7 @@ def flight_filter(org,dest,day,hour):
         
         fl1=df[df.Dst.isin(dest)]
         fl2=fl1[fl1.Day.isin(day)]
-        fl3=fl2[fl2.RlsHR.isin(hour)]
+        fl3=fl2[fl2.Rls_HR.isin(hour)]
 #         return(type(df['Org'][0]),type(df['Dst'][0]),type(df['Day'][1])==numpy.int64,type(df['RlsHR'][1])==numpy.int64)
         return fl3
 
