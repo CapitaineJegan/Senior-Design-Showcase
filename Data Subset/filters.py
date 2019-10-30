@@ -4,18 +4,6 @@ import numpy
 df= pd.read_csv('oct_2019 MELT.csv')
 
 
-#desk filter
-def desk_filter(day,desk):
-    desk_new=[]
-    for i in desk:
-        desk_new.append(str(i))
-        
-    df1= df[df.Day.isin(day)]
-    df2=df1[df1.Desk.isin(desk_new)]  #needs to be a string
-    return (df2)
-    
-desk_filter([1],[3])
-
 #FLIGHT FILTER
 #Def: filters flights by origin, destination, day, and hour
     #inputs:
