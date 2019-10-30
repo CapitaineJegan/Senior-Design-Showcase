@@ -31,9 +31,9 @@ def flight_filter(org,dest,day_,hour_):
     day=[]
     hour=[]
     for d in day_:
-        day_num.append(numpy.int64(d))
+        day.append(numpy.int64(d))
     for h in hour_:
-        hour_num.append(numpy.int64(h))
+        hour.append(numpy.int64(h))
   
             
 #     return(len(org),len(dest),len(day),len(hour))
