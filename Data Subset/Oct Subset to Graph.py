@@ -47,6 +47,19 @@ def melt_file(file):
 #Set day
 daymelt = melt[melt['Date'].dt.day == 1]
 deskmelt = daymelt[daymelt['Desk'] == 87]
+def max_cities(num_cities, deskmelt): 
+    city_constraint = np.full((24,1),10)
+    org_cities = deskmelt.filter(['Org','Desk','Rls HR'])
+    org_cities = org_cities.filter(['Org','Desk','Rls HR']).rename(columns={"Org": "City"})
+
+    dst_cities = deskmelt.filter(['Dst','Desk','Rls HR'])
+    dst_cities = dst_cities.filter(['Dst','Desk','Rls HR']).rename(columns={"Dst": "City"})
+
+    cities = org_cities.append(dst_cities).groupby(['Desk','Rls HR']).nunique()
+    cities = cities.filter(['City'])
+
+    num_cities = cities['City'].tolist()
+    print(max(num_cities))
 
 def cities_dist(hrs, num_cities, deskmelt): 
     city_constraint = np.full((24,1),10)
@@ -71,3 +84,4 @@ def cities_dist(hrs, num_cities, deskmelt):
     plt.plot(hrs,city_constraint)
 
 cities_dist(hrs, num_cities, deskmelt)
+max_cities(num_cities, deskmelt)
