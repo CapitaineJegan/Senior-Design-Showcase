@@ -52,13 +52,13 @@ deskmelt = daymelt[daymelt['Desk'] == 3]
 
 def max_cities(num_cities, deskmelt): 
     city_constraint = np.full((24,1),10)
-    org_cities = deskmelt.filter(['Org','Desk','Rls HR'])
-    org_cities = org_cities.filter(['Org','Desk','Rls HR']).rename(columns={"Org": "City"})
+    org_cities = deskmelt.filter(['Org','Desk','Rls_HR'])
+    org_cities = org_cities.filter(['Org','Desk','Rls_HR']).rename(columns={"Org": "City"})
 
-    dst_cities = deskmelt.filter(['Dst','Desk','Rls HR'])
-    dst_cities = dst_cities.filter(['Dst','Desk','Rls HR']).rename(columns={"Dst": "City"})
+    dst_cities = deskmelt.filter(['Dst','Desk','Rls_HR'])
+    dst_cities = dst_cities.filter(['Dst','Desk','Rls_HR']).rename(columns={"Dst": "City"})
 
-    cities = org_cities.append(dst_cities).groupby(['Desk','Rls HR']).nunique()
+    cities = org_cities.append(dst_cities).groupby(['Desk','Rls_HR']).nunique()
     cities = cities.filter(['City'])
 
     num_cities = cities['City'].tolist()
@@ -66,13 +66,13 @@ def max_cities(num_cities, deskmelt):
 
 def cities_dist(hrs, num_cities, deskmelt): 
     city_constraint = np.full((24,1),10)
-    org_cities = deskmelt.filter(['Org','Desk','Rls HR'])
-    org_cities = org_cities.filter(['Org','Desk','Rls HR']).rename(columns={"Org": "City"})
+    org_cities = deskmelt.filter(['Org','Desk','Rls_HR'])
+    org_cities = org_cities.filter(['Org','Desk','Rls_HR']).rename(columns={"Org": "City"})
 
-    dst_cities = deskmelt.filter(['Dst','Desk','Rls HR'])
-    dst_cities = dst_cities.filter(['Dst','Desk','Rls HR']).rename(columns={"Dst": "City"})
+    dst_cities = deskmelt.filter(['Dst','Desk','Rls_HR'])
+    dst_cities = dst_cities.filter(['Dst','Desk','Rls_HR']).rename(columns={"Dst": "City"})
 
-    cities = org_cities.append(dst_cities).groupby(['Desk','Rls HR']).nunique()
+    cities = org_cities.append(dst_cities).groupby(['Desk','Rls_HR']).nunique()
     cities = cities.filter(['City'])
 
     num_cities = cities['City'].tolist()
@@ -88,3 +88,4 @@ def cities_dist(hrs, num_cities, deskmelt):
 
 cities_dist(hrs, num_cities, deskmelt)
 max_cities(num_cities, deskmelt)
+
