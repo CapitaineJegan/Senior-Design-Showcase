@@ -16,7 +16,16 @@ def desk_filter(day,desk):
     
 desk_filter([1],[3])
 
-#flight filter
+#FLIGHT FILTER
+#Def: filters flights by origin, destination, day, and hour
+    #inputs:
+        #df: melted data frame
+        #origin: list of strings
+        #destination: list of strings
+        #day: list of integers
+        #hour: list of integers
+    #Return:new dataframe with filtered flights by origin,destination,day, and hour
+
 def flight_filter(org,dest,day,hour):
     day_num=[]
     hour_num=[]
