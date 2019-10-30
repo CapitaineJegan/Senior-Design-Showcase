@@ -27,12 +27,12 @@ desk_filter([1],[3])
     #Description: it checks whether there is an empty input(s) 
     #Return:new dataframe with filtered flights by origin,destination,day, and hour
 
-def flight_filter(org,dest,day,hour):
-    day_num=[]
-    hour_num=[]
-    for d in day:
+def flight_filter(org,dest,day_,hour_):
+    day=[]
+    hour=[]
+    for d in day_:
         day_num.append(numpy.int64(d))
-    for h in hour:
+    for h in hour_:
         hour_num.append(numpy.int64(h))
   
             
@@ -58,8 +58,8 @@ def flight_filter(org,dest,day,hour):
         return f13
     if len(org)>0 and len(dest)>0 and len(day)>0 and len(hour)==0:  #no hour
         fl1=df[df.Org.isin(org)]
-        fl2=df1[fl1.Dst.isin(dest)]
-        fl3=df2[fl2.Day.isin(day)]
+        fl2=flf1[fl1.Dst.isin(dest)]
+        fl3=fl2[fl2.Day.isin(day)]
         return f13
         
     if len(org)==0 and len(dest)==0 and len(day)>0 and len(hour)>0:  #no org,dest
@@ -101,10 +101,15 @@ def flight_filter(org,dest,day,hour):
         fl1=df[df.Rls_HR.isin(hour)]
         return f11
         
-        
     if len(org)==0 and len(dest)==0 and len(day)==0 and len(hour)==0:  #none entered
         return df
-
+    if len(org)>0 and len(dest)>0 and len(day)>0 and len(hour)>0:
+        fl1=df[df.Org.isin(org)]
+        fl2=flf1[fl1.Dst.isin(dest)]
+        fl3=fl2[fl2.Day.isin(day)]
+        fl4=fl3[fl3.Rls_HR.isin(hour)]
+        return fl4
+        
 flight_filter([],['ATL'],[2],[19])
 
 
