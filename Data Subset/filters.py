@@ -1,6 +1,6 @@
 import pandas as pd 
 import csv 
-import numpy
+import numpy as np
 df= pd.read_csv('oct_2019 MELT.csv')
 
 
@@ -19,9 +19,9 @@ def flight_filter(df, org,dest,day_,hour_):
     day=[]
     hour=[]
     for d in day_:
-        day.append(numpy.int64(d))
+        day.append(np.int64(d))
     for h in hour_:
-        hour.append(numpy.int64(h))
+        hour.append(np.int64(h))
   
             
 #     return(len(org),len(dest),len(day),len(hour))
@@ -47,7 +47,7 @@ def flight_filter(df, org,dest,day_,hour_):
         return fl3
     if len(org)>0 and len(dest)>0 and len(day)>0 and len(hour)==0:  #no hour
         fl1=df[df.Org.isin(org)]
-        fl2=flf1[fl1.Dst.isin(dest)]
+        fl2=fl1[fl1.Dst.isin(dest)]
         fl3=fl2[fl2.Day.isin(day)]
         return fl3
         
@@ -94,7 +94,7 @@ def flight_filter(df, org,dest,day_,hour_):
         return df
     if len(org)>0 and len(dest)>0 and len(day)>0 and len(hour)>0:
         fl1=df[df.Org.isin(org)]
-        fl2=flf1[fl1.Dst.isin(dest)]
+        fl2=fl1[fl1.Dst.isin(dest)]
         fl3=fl2[fl2.Day.isin(day)]
         fl4=fl3[fl3.Rls_HR.isin(hour)]
         return fl4
