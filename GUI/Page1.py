@@ -10,10 +10,12 @@ root.title('Upload Schedule')
 inputvar = tk.StringVar(root)
 def getCSV ():
     global full_df
+    global xl
 
     import_file_path = filedialog.askopenfilename()
     full_df = pd.read_excel (import_file_path, usecols = 'A:F')
     #print(import_file_path)
+    xl=pd.ExcelFile(import_file_path)
 
     inputvar.set(import_file_path)
     #print(full_df)
@@ -30,5 +32,18 @@ browseButton_CSV = tk.Button(text="      Browse     ", command=getCSV, bg='green
 uploadButton = tk.Button(text = 'Upload')
 uploadButton.grid(row=1, column=0, columnspan=2)
 #canvas1.create_window(200, 200, window=browseButton_CSV)
+tk.Label(root, text='Please specify sheetname').grid(row=3, column=0)
+sheetname = tk.StringVar()
+sheetbar = tk.Entry(root, textvariable=sheetname).grid(row=3, column=1)
+def verifysheet():
+    print(sheetname.get())
+    print(xl.sheet_names)
+    is_verified = False
+    for i in xl.sheet_names:
+        if i==sheetname.get():
+            is_verified = True
+    if is_verified == False:
+        tk.messagebox.showerror('Error', 'Please enter a valid sheetname')
+tk.Button(text = 'Verify', command=verifysheet).grid(row=4, column=0)
 
 root.mainloop()
