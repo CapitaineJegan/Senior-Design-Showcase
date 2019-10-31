@@ -14,12 +14,14 @@ root.title('Upload Schedule')
 filePath = tk.StringVar()
 global df
 global p2Categories
+global xl
 
 def getCSV():#for taking the csv files in the first page button
     import_file_path = filedialog.askopenfilename()
 #    df = pd.read_csv ('Oct 2019 raw schedule.csv')
-    print(import_file_path)
+    #print(import_file_path)
     df = pd.read_excel (import_file_path, usecols='A:F')
+    xl = pd.ExcelFile(import_file_path)
 
 #    ntpath.basename(import_file_path)
 
@@ -28,7 +30,7 @@ def getCSV():#for taking the csv files in the first page button
 
     filePath.set(import_file_path)
 
-    print(df)
+    #print(df)
 
 def savep2Info(p1,p2,p3,p4,a1,a2,a3,a4):
     p2Categories = []
@@ -71,6 +73,13 @@ def makeP2():
     day2All = tk.IntVar()
     hourAll = tk.IntVar()
 
+    ###input verification codes
+    is_verified = False
+    for i in xl.sheet_names:
+        if i==sheetname.get():
+            is_verified = True
+    if is_verified == False:
+        tk.messagebox.showerror('Error', 'Please enter a valid sheetname')
     ###Page 2a code###
 #    canvas1 = tk.Canvas(page2b, width = 400, height = 400)
 #    canvas1.pack()
@@ -162,5 +171,9 @@ canvas1.create_window(200, 200, window=browseButton_CSV)
 
 uploadButton = tk.Button(text="Upload", command=makeP2)
 uploadButton.grid(row=1, column=1, sticky="W"+"E"+"N"+"S")
+
+tk.Label(root, text='Please specify sheetname').grid(row=3, column=0)
+sheetname = tk.StringVar()
+sheetbar = tk.Entry(root, textvariable=sheetname).grid(row=3, column=1)
 
 root.mainloop()
