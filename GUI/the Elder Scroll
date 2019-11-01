@@ -1,7 +1,13 @@
-from tkinter import *   # from x import * is bad practice
-import pandas as pd
 import tkinter as tk
-# http://tkinter.unpythonic.net/wiki/VerticalScrolledFrame
+from tkinter import filedialog
+import pandas as pd
+#import numpy as np
+from tabulate import tabulate
+
+#importing filters
+import csv
+import numpy
+df= pd.read_csv('oct_2019 MELT.csv')
 
 #desk filter
 def desk_filter(day,desk):
