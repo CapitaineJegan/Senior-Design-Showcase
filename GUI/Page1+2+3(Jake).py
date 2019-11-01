@@ -317,10 +317,9 @@ if __name__ == "__main__":
 
 
         def __init__(self, *args, **kwargs):
-            root = Tk.__init__(self, *args, **kwargs)
+            page3 = tk.Toplevel()
 
-
-            self.frame = VerticalScrolledFrame(root)
+            self.frame = VerticalScrolledFrame(page3)
             self.frame.grid(row=0, column=0)
             #self.label = Label(text="Shrink the window to activate the scrollbar.")
             #self.label.grid(row=1, column=0)
@@ -413,9 +412,8 @@ if __name__ == "__main__":
 
 def makeP3():
     #page3.geometry('%dx%d+%d+%d' % (1800, 880, 50, 20))
-    page3 = SampleApp()
-    page3 = tk.Toplevel()
-
+    #page3 = tk.Toplevel()
+    SampleApp()
 
 
 
