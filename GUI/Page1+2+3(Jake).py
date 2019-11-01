@@ -407,19 +407,16 @@ if __name__ == "__main__":
                     j_index +=1
                 i_index +=1
                 j_index = 0
+            tk.Button(page3, text="More...", font=('helvetica', 12), command=lambda: moreGrafix).grid(row=2, column=0)
+            tk.Button(page3,text="Refresh", font=('helvetica', 12), command=lambda: p3refresh(page3)).grid(row=0,column=4, sticky="W"+"E")
+            tk.Button(page3, text="Back", font=('helvetica', 12), command=lambda: p3close(page3)).grid(row=3, column=0)
+
 
 
 
 def makeP3():
     #page3.geometry('%dx%d+%d+%d' % (1800, 880, 50, 20))
-    #page3 = tk.Toplevel()
     SampleApp()
-
-
-
-    #tk.Button(page3, text="More...", font=('helvetica', 12), command=lambda: moreGrafix).grid(row=2, column=0)
-    #tk.Button(page3,text="Refresh", font=('helvetica', 12), command=lambda: p3refresh(page3)).grid(row=0,column=4, sticky="W"+"E")
-    #tk.Button(page3, text="Back", font=('helvetica', 12), command=lambda: p3close(page3)).grid(row=3, column=0)
 
 #will incorporate these two checks for accuracy of entries later this week
 #def checkday(day):
