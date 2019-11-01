@@ -30,7 +30,7 @@ global hourList
 
 def getCSV():#for taking the csv files in the first page button
     global melt
-
+    global xl
     import_file_path = filedialog.askopenfilename()
 #    df = pd.read_csv ('Oct 2019 raw schedule.csv')
     print(import_file_path)
@@ -50,6 +50,7 @@ def getCSV():#for taking the csv files in the first page button
 
     # create dataframes from Excel
     df = pd.read_excel(import_file_path) #CHANGE FILE AND SHEET NAMES
+    xl = pd.ExcelFile(import_file_path) #USED TO VERIFY SHEETNAME
 
     # create airport list
     aiport_list = ['ABE', 'ABQ', 'AGS', 'ALB', 'ATL', 'ATW', 'AUS', 'AVL', 'AVP', 'BDL', 'BGR', 'BHM', 'BIL', 'BIS', 'BNA', 'BOI', 'BOS', 'BTR', 'BTV', 'BUF', 'BUR', 'BWI', 'BZN', 'CAE', 'CAK', 'CHA', 'CHO', 'CHS', 'CID', 'CLE', 'CLT', 'CMH', 'COS', 'CRW', 'CVG', 'DAB', 'DAL', 'DAY', 'DCA', 'DEN', 'DFW', 'DSM', 'DTW', 'ECP', 'EGE', 'ELP', 'EVV', 'EWR', 'EYW', 'FAR', 'FAY', 'FCA', 'FLL', 'FNT', 'FSD', 'GEG', 'GNV', 'GPT', 'GRB', 'GRR', 'GSO', 'GSP', 'GTF', 'HDN', 'HOU', 'HPN', 'HSV', 'IAD', 'IAH', 'ICT', 'ILM', 'IND', 'JAC', 'JAN', 'JAX', 'JFK', 'LAS', 'LAX', 'LEX', 'LFT', 'LGA', 'LGB', 'LIT', 'MCI', 'MCO', 'MDT', 'MDW', 'MEM', 'MHT', 'MIA', 'MKE', 'MLB', 'MOB', 'MSN', 'MSO', 'MSP', 'MSY', 'MTJ', 'MYR', 'OAK', 'OKC', 'OMA', 'ONT', 'ORD', 'ORF', 'PBI', 'PDX', 'PHF', 'PHL', 'PHX', 'PIT', 'PNS', 'PSC', 'PSP', 'PVD', 'PWM', 'RAP', 'RDU', 'RIC', 'RNO', 'ROA', 'ROC', 'RSW', 'SAN', 'SAT', 'SAV', 'SBN', 'SDF', 'SEA', 'SFO', 'SJC', 'SLC', 'SMF', 'SNA', 'SRQ', 'STL', 'SYR', 'TLH', 'TPA', 'TRI', 'TUL', 'TUS', 'TVC', 'TYS', 'VPS', 'XNA', 'YEG', 'YUL', 'YVR', 'YWG', 'YXE', 'YYC', 'YYZ']
@@ -384,7 +385,7 @@ if __name__ == "__main__":
 
             deskNum=tk.StringVar()
             entry_deskNum = tk.Entry(self.frame.interior, textvariable=deskNum, width=6).grid(row=0, column=0)
-            button_graphdesk = tk.Button(self.frame.interior, text = 'Graph the desk!', command=lambda:graphdesk(deskNum.get())).grid(row=0, column=1, sticky='w'+'e')
+            button_graphdesk = tk.Button(self.frame.interior, text = 'Visualize', command=lambda:graphdesk(deskNum.get())).grid(row=0, column=1, sticky='w'+'e')
             headers = []
             for col in df2.columns:
                 #print(col)
@@ -442,13 +443,26 @@ canvas1 = tk.Canvas(root, width = 400, height = 400, bg = 'lightsteelblue2', rel
 tk.Label(root, text=" Search for File ",font=(12)).grid(row=0, column=0)
 
 searchbar = tk.Entry(root, text=filePath.get(), width=50)
-searchbar.grid(row=0, column=1)
+searchbar.grid(row=0, column=1, columnspan=2)
 
 browseButton_CSV = tk.Button(text="Browse", command=getCSV, bg='green', fg='white', font=('helvetica', 12, 'bold')).grid(row=1,column=0, sticky="W"+"E")
 canvas1.create_window(200, 200, window=browseButton_CSV)
 
 uploadButton = tk.Button(text="Load",font=('helvetica', 12, 'bold'), command=makeP2)
 uploadButton.grid(row=1, column=1, sticky="W"+"E")
+tk.Label(root, text='Please specify sheetname').grid(row=3, column=0, sticky="W"+"E")
+sheetname = tk.StringVar()
+sheetbar = tk.Entry(root, textvariable=sheetname).grid(row=3, column=1,columnspan=2, sticky="W"+"E")
+def verifysheet():
+    print(sheetname.get())
+    print(xl.sheet_names)
+    is_verified = False
+    for i in xl.sheet_names:
+        if i==sheetname.get():
+            is_verified = True
+    if is_verified == False:
+        tk.messagebox.showerror('Error', 'Please enter a valid sheetname')
+tk.Button(text = 'Verify', command=verifysheet).grid(row=3, column=2, sticky="W"+"E")
 
 
 #desk_filter([1],[3])
@@ -460,6 +474,6 @@ uploadButton.grid(row=1, column=1, sticky="W"+"E")
 
 
 
-root.geometry('%dx%d+%d+%d' % (460, 70, 500, 200))
+root.geometry('%dx%d+%d+%d' % (460, 90, 500, 200))
 
 root.mainloop()
