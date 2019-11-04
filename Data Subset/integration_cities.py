@@ -1,3 +1,7 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
 # imports
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -37,7 +41,7 @@ def melt_file(file):
     melt = melt.dropna(subset=['Schd'])
 
     # set Year, Month and Date
-    melt['Month'] =  10
+    melt['Month'] =  9
     melt['Year'] =  2019
     melt['Date'] = pd.to_datetime(melt[['Year', 'Month', 'Day']])
 
@@ -339,6 +343,7 @@ def cities_dist(df):
         df: desk_filter df
     Return: plot of cities per hour with conditional coloring
     '''
+    df = desk_filter(desk_filter_data, date, [desk])
     org_cities = df.filter(['Org','Desk','Rls_HR','Dept_HR','Arr_HR'])
     org_Rls_cities = org_cities.filter(['Org','Desk','Rls_HR']).rename(columns={"Org": "City"})
     org_Dept_cities = org_cities.filter(['Org','Desk','Dept_HR']).rename(columns={"Org": "City"})
@@ -366,9 +371,15 @@ def cities_dist(df):
     plt.plot(hrs,[10 for i in range(24)], color='blue')
     plt.show()
 
+def shift_file(file):
+    #Create dataframes from Excel
+    df = pd.read_excel(file)
+    return df
+
 # test for the display for certain date and selected desks
 melt = melt_file(file)
-date = '10-01-2019'
+# shift = shift_file('deskTimeRanges.xlsx')
+date = '09-01-2019'
 desks = ['M87', 1]
 desk_filter_data = desk_filter(melt, date, desks)
 desk_display(melt, date, desks)
@@ -377,4 +388,4 @@ desk_display(melt, date, desks)
 desk = 'M87'
 workload_dist(desk)
 releases_dist(desk)
-cities_dist(desk_filter_data)
+cities_dist(desk)
