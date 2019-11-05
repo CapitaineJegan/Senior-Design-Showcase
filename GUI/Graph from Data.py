@@ -6,7 +6,7 @@ import numpy as np
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-file = 'Sked-AugEq-19a.xlsx'
+file = 'sep_2019.xlsx'
 
 root = tk.Tk()
 
@@ -25,7 +25,7 @@ def melt_file(file):
     '''
 
     # create dataframes from Excel
-    df = pd.read_excel(file, sheet_name='DOM-Aug19') #CHANGE FILE AND SHEET NAMES
+    df = pd.read_excel(file, sheet_name='DOM') #CHANGE FILE AND SHEET NAMES
 
     # create airport list
     aiport_list = ['ABE', 'ABQ', 'AGS', 'ALB', 'ATL', 'ATW', 'AUS', 'AVL', 'AVP', 'BDL', 'BGR', 'BHM', 'BIL', 'BIS', 'BNA', 'BOI', 'BOS', 'BTR', 'BTV', 'BUF', 'BUR', 'BWI', 'BZN', 'CAE', 'CAK', 'CHA', 'CHO', 'CHS', 'CID', 'CLE', 'CLT', 'CMH', 'COS', 'CRW', 'CVG', 'DAB', 'DAL', 'DAY', 'DCA', 'DEN', 'DFW', 'DSM', 'DTW', 'ECP', 'EGE', 'ELP', 'EVV', 'EWR', 'EYW', 'FAR', 'FAY', 'FCA', 'FLL', 'FNT', 'FSD', 'GEG', 'GNV', 'GPT', 'GRB', 'GRR', 'GSO', 'GSP', 'GTF', 'HDN', 'HOU', 'HPN', 'HSV', 'IAD', 'IAH', 'ICT', 'ILM', 'IND', 'JAC', 'JAN', 'JAX', 'JFK', 'LAS', 'LAX', 'LEX', 'LFT', 'LGA', 'LGB', 'LIT', 'MCI', 'MCO', 'MDT', 'MDW', 'MEM', 'MHT', 'MIA', 'MKE', 'MLB', 'MOB', 'MSN', 'MSO', 'MSP', 'MSY', 'MTJ', 'MYR', 'OAK', 'OKC', 'OMA', 'ONT', 'ORD', 'ORF', 'PBI', 'PDX', 'PHF', 'PHL', 'PHX', 'PIT', 'PNS', 'PSC', 'PSP', 'PVD', 'PWM', 'RAP', 'RDU', 'RIC', 'RNO', 'ROA', 'ROC', 'RSW', 'SAN', 'SAT', 'SAV', 'SBN', 'SDF', 'SEA', 'SFO', 'SJC', 'SLC', 'SMF', 'SNA', 'SRQ', 'STL', 'SYR', 'TLH', 'TPA', 'TRI', 'TUL', 'TUS', 'TVC', 'TYS', 'VPS', 'XNA', 'YEG', 'YUL', 'YVR', 'YWG', 'YXE', 'YYC', 'YYZ']
@@ -299,7 +299,7 @@ def workload_dist(desk):
     ax1.plot(hrs, time_worked, color = color) # workload plot
     ax1.plot(hrs, [60 for i in range(24)], color = 'blue') # capacity plot
     ax1.set_title('Workload Distribution')
-    #plt.show()
+    plt.show()
 
 def releases_dist(desk):
     '''
@@ -345,7 +345,7 @@ def releases_dist(desk):
     ax2.plot(hrs, num_rls, color = color)
     ax2.plot(hrs, [10 for i in range(24)], color = 'blue')
     ax2.set_title('Release Distribution')
-    #plt.show()
+    plt.show()
 
 def cities_dist(df):
     '''
@@ -380,12 +380,14 @@ def cities_dist(df):
 
     figure3 = plt.Figure(figsize=(6,5), dpi=100)
     ax3 = figure3.add_subplot(111)
+    ax4 = figure3.add_subplot(111)
     bar3 = FigureCanvasTkAgg(figure3, root)
     bar3.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
     ###needs to be worked on
-    cities.plot.bar(x='Hours', y='City', color = city_color)
-    ax3.plot(hrs, [10 for i in range(24)], color = 'blue')
-    ax3.set_title('Cities Distribution')
+    #print(cities)
+    rects1 = cities.plot.bar(x='Hours', y='City', color = city_color, ax=ax3)
+    ax4.plot(hrs, [10 for i in range(24)], color = 'blue')
+    ax4.set_title('Cities Distribution')
     plt.show()
 
 
