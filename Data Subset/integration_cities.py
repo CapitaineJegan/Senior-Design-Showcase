@@ -71,7 +71,13 @@ def desk_filter(df, date, desk):
     Return: new dataframe with filtered flights by desk and date
     '''
 
-    df_date = df.loc[df['Date'] == date]
+    if date == []:
+        date = list(set(list(df['Date'])))
+
+    if desk == []:
+        desk = list(set(list(df['Desk'])))
+
+    df_date = df.loc[df['Date'].isin(date)]
     df_date_desk = df_date[df_date['Desk'].isin(desk)]
 
     return df_date_desk
