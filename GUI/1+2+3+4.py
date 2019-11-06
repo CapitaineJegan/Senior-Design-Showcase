@@ -28,6 +28,7 @@ global df###test variable for dataframe!###
 global p2Categories
 global melt
 global file
+global desk
 #global list values for the entries on Page 2
 global deskList
 global day1List
@@ -452,7 +453,7 @@ def melt_file(file):
 
 def graphdesk(desk):
     #placeholder dataframes
-
+    #global desk
     newWindow = tk.Toplevel()
     newWindow.title("Visualizer")
 
@@ -461,13 +462,16 @@ def graphdesk(desk):
     ###Jake's 'Graph from Data' code###
     file = 'sep_2019.xlsx'
 
-
+    global melt
     melt = melt_file(file)
+    global date
     date = '10-01-2019'
+    global desks
     desks = ['M87', 1]
+    global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
+    global desk_display_df
     desk_display_df = desk_display(melt, date, desks)
-
     desk = 'M87'
     workload_dist(desk, newWindow)
     releases_dist(desk, newWindow)
@@ -1109,7 +1113,7 @@ def workload_dist(desk, window):
     figure1 = plt.Figure(figsize=(6,5), dpi=100)
     ax1 = figure1.add_subplot(111)
     bar1 = FigureCanvasTkAgg(figure1, window)
-    bar1.get_tk_widget().pack(window, side=tk.LEFT, fill=tk.BOTH)
+    bar1.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
     #hrs.plot()(kind='bar', legend=True, ax=ax1, color = color)
     ax1.plot(hrs, time_worked, color = color) # workload plot
     ax1.plot(hrs, [60 for i in range(24)], color = 'blue') # capacity plot
@@ -1158,7 +1162,7 @@ def releases_dist(desk, window):
     figure2 = plt.Figure(figsize=(6,5), dpi=100)
     ax2 = figure2.add_subplot(111)
     bar2 = FigureCanvasTkAgg(figure2, window)
-    bar2.get_tk_widget().pack(window, side=tk.LEFT, fill=tk.BOTH)
+    bar2.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
     ax2.plot(hrs, num_rls, color = color)
     ax2.plot(hrs, [10 for i in range(24)], color = 'blue')
     ax2.set_title('Release Distribution')
@@ -1173,6 +1177,7 @@ def cities_dist(df, window):
         df: desk_filter df
     Return: plot of cities per hour with conditional coloring
     '''
+    desk = 'M87'
     df = desk_filter(desk_filter_data, date, [desk])
     org_cities = df.filter(['Org','Desk','Rls_HR','Dept_HR','Arr_HR'])
     org_Rls_cities = org_cities.filter(['Org','Desk','Rls_HR']).rename(columns={"Org": "City"})
@@ -1201,7 +1206,7 @@ def cities_dist(df, window):
     ax3 = figure3.add_subplot(111)
     ax4 = figure3.add_subplot(111)
     bar3 = FigureCanvasTkAgg(figure3, window)
-    bar3.get_tk_widget().pack(window, side=tk.LEFT, fill=tk.BOTH)
+    bar3.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
     ###needs to be worked on
     #print(cities)
     rects1 = cities.plot.bar(x='Hours', y='City', color = city_color, ax=ax3)
