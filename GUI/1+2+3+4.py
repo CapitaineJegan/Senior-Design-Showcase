@@ -26,7 +26,8 @@ filePath = tk.StringVar()
 inputvar = tk.StringVar(root)
 global df###test variable for dataframe!###
 global p2Categories
-
+global melt
+global file
 #global list values for the entries on Page 2
 global deskList
 global day1List
@@ -34,12 +35,12 @@ global origList
 global destList
 global day2List
 global hourList
-deskList = []
-day1List = []
-origList = []
-destList = []
-day2List = []
-hourList = []
+#deskList = []
+#day1List = []
+#origList = []
+#destList = []
+#day2List = []
+#hourList = []
 
 #####Button message to check that the sheet name exists in the target file
 def verifysheet():
@@ -156,18 +157,8 @@ def savep2fltInfo(page, p3, p4, p5, p6):
     p2Categories.append(p4)
     p2Categories.append(p5)
     p2Categories.append(p6)
-    try:
-        int(p5)
-    except:
-        tk.messagebox.showerror('Error', 'Please enter an integer for day of the month')
-    if int(p5)<=0 or int(p5)>31:
-        tk.messagebox.showerror('Error', 'Please enter a valid number for day of the month')
-    try:
-        int(p6)
-    except:
-        tk.messagebox.showerror('Error', 'Please enter an integer for hour')
-    if int(p6)<0 or int(p6)>23:
-        tk.messagebox.showerror('Error', 'Please enter a valid number for hour')
+    #print(p5)
+
     print(p2Categories)
 
 
@@ -181,6 +172,30 @@ def savep2fltInfo(page, p3, p4, p5, p6):
     day2List = list(p5.split(","))
     hourList = list(p6.split(","))
 
+#    for orig in origList:
+ #       if len(orig) != 3:
+  #          tk.messagebox.showerror('Error', 'Please enter a valid origin')
+    if origList == ['']:
+         origList = []
+#    for dest in destList:
+#        if len(dest) != 3:
+#            tk.messagebox.showerror('Error', 'Please enter a valid destination')'''
+    if destList == ['']:
+        destList = []
+    for day in day2List:
+        try:
+            int(day)
+        except:
+            tk.messagebox.showerror('Error', 'Please enter an integer for day of the month')
+        if int(day)<=0 or int(day)>31:
+            tk.messagebox.showerror('Error', 'Please enter a valid number for day of the month')
+    for hour in hourList:
+        try:
+            int(hour)
+        except:
+            tk.messagebox.showerror('Error', 'Please enter an integer for hour')
+        if int(hour)<0 or int(hour)>23:
+            tk.messagebox.showerror('Error', 'Please enter a valid number for hour')
     try:
         day2List = list(map(int, day2List))
 
@@ -189,7 +204,7 @@ def savep2fltInfo(page, p3, p4, p5, p6):
 
     print(origList, destList, day2List, hourList)
     page.destroy()
-    makeP3b()
+    makeP3b(origList, destList, day2List, hourList)
 
 #Page 2 functions
 def makeP2():
@@ -275,7 +290,7 @@ def p3arefresh(p3):
 
 def p3brefresh(p3):
     p3.destroy()
-    makeP3b()
+    makeP3b(origList, destList, day2List, hourList)
 
 #Page 3 functions
 ###TK for Page 3 scrollbar class###
@@ -587,7 +602,7 @@ def makeP3a():
     tk.Button(page3a,text="Refresh", font=('helvetica', 12), command=lambda: p3arefresh(page3a)).grid(row=0,column=1, sticky="E")
     tk.Button(page3a, text="Back", font=('helvetica', 12), command=lambda: p3aclose(page3a)).grid(row=3, column=0, sticky="W")
 
-def makeP3b():
+def makeP3b(origList,destList,day2List,hourList):
     page3b = tk.Toplevel()
     page3b.geometry('%dx%d+%d+%d' % (1380, 890, 400, 80))
 
@@ -595,30 +610,6 @@ def makeP3b():
     p3frame.grid(row=1, column=0, columnspan=2, rowspan=2)
     #self.label = Label(text="Shrink the window to activate the scrollbar.")
     #self.label.grid(row=1, column=0)
-
-#    def graphdesk(desk):
-#    #print('you are printing imaginary graphs!')
-#
-#        newWindow = tk.Toplevel()
-#        newWindow.title("Visualizer")
-#
-#        newWindow.geometry('%dx%d+%d+%d' % (1800, 800, 100, 100))
-#
-#        ###Jake's 'Graph from Data' code###
-#        file = 'sep_2019.xlsx'
-#
-#
-#        melt = melt_file(file)
-#        date = '10-01-2019'
-#        desks = ['M87', 1]
-#        desk_filter_data = desk_filter(melt, date, desks)
-#        desk_display_df = desk_display(melt, date, desks)
-#
-#        desk = 'M87'
-#        workload_dist(desk, newWindow)
-#        releases_dist(desk, newWindow)
-#        cities_dist(desk_filter_data, newWindow)
-        #########
 
     deskNum=tk.StringVar()
 
@@ -629,18 +620,28 @@ def makeP3b():
 
     #variables for testing
     org=['ATL']
-    dest=[]
+    dest=['MEM']
     day_=[2,3]
     hour_=[2]
     ###
+    for day in day2List:
+        day = int(day)
+    for hour in hourList:
+        hour = int(hour)
+    ###printing
+    print(origList)
+    print (destList)
+    print(day2List)
+    print(hourList)
     #actualy entries
-    #org = origList
-    #dest= destList
-    #day_ = day2List
-    #hour_ = hourList
+    org = origList
+    dest= destList
+    day_ = day2List
+    hour_ = hourList
 
     filtered_flights = flight_filter(df, org,dest,day_,hour_)
-    #print(filtered_flights)
+    print('flight filter entries',org,dest,day_,hour_)
+    print(filtered_flights)
     ###
 
     for col in filtered_flights.columns:
@@ -801,7 +802,7 @@ def flight_filter(df, org,dest,day_,hour_):
     for h in hour_:
         hour.append(np.int64(h))
 
-
+    #print(dest,len(dest))
 #     return(len(org),len(dest),len(day),len(hour))
     if len(org)==0 and len(dest)>0 and len(day)>0 and len(hour)>0:  #no org
 
@@ -1108,7 +1109,7 @@ def workload_dist(desk, window):
     figure1 = plt.Figure(figsize=(6,5), dpi=100)
     ax1 = figure1.add_subplot(111)
     bar1 = FigureCanvasTkAgg(figure1, window)
-    bar1.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
+    bar1.get_tk_widget().pack(window, side=tk.LEFT, fill=tk.BOTH)
     #hrs.plot()(kind='bar', legend=True, ax=ax1, color = color)
     ax1.plot(hrs, time_worked, color = color) # workload plot
     ax1.plot(hrs, [60 for i in range(24)], color = 'blue') # capacity plot
@@ -1157,7 +1158,7 @@ def releases_dist(desk, window):
     figure2 = plt.Figure(figsize=(6,5), dpi=100)
     ax2 = figure2.add_subplot(111)
     bar2 = FigureCanvasTkAgg(figure2, window)
-    bar2.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
+    bar2.get_tk_widget().pack(window, side=tk.LEFT, fill=tk.BOTH)
     ax2.plot(hrs, num_rls, color = color)
     ax2.plot(hrs, [10 for i in range(24)], color = 'blue')
     ax2.set_title('Release Distribution')
@@ -1200,7 +1201,7 @@ def cities_dist(df, window):
     ax3 = figure3.add_subplot(111)
     ax4 = figure3.add_subplot(111)
     bar3 = FigureCanvasTkAgg(figure3, window)
-    bar3.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
+    bar3.get_tk_widget().pack(window, side=tk.LEFT, fill=tk.BOTH)
     ###needs to be worked on
     #print(cities)
     rects1 = cities.plot.bar(x='Hours', y='City', color = city_color, ax=ax3)
