@@ -13,6 +13,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import csv
 import numpy
 import random
+import numpy as np
 
 #window = tk.Tk()
 #window.title('Upload Schedule')
@@ -33,7 +34,12 @@ global origList
 global destList
 global day2List
 global hourList
-
+deskList = []
+day1List = []
+origList = []
+destList = []
+day2List = []
+hourList = []
 
 #####Button message to check that the sheet name exists in the target file
 def verifysheet():
@@ -150,7 +156,20 @@ def savep2fltInfo(page, p3, p4, p5, p6):
     p2Categories.append(p4)
     p2Categories.append(p5)
     p2Categories.append(p6)
+    try:
+        int(p5)
+    except:
+        tk.messagebox.showerror('Error', 'Please enter an integer for day of the month')
+    if int(p5)<=0 or int(p5)>31:
+        tk.messagebox.showerror('Error', 'Please enter a valid number for day of the month')
+    try:
+        int(p6)
+    except:
+        tk.messagebox.showerror('Error', 'Please enter an integer for hour')
+    if int(p6)<0 or int(p6)>23:
+        tk.messagebox.showerror('Error', 'Please enter a valid number for hour')
     print(p2Categories)
+
 
     origList = []
     destList = []
@@ -168,7 +187,7 @@ def savep2fltInfo(page, p3, p4, p5, p6):
     except:
         print()
 
-    #print(origList, destList, day2List, hourList)
+    print(origList, destList, day2List, hourList)
     page.destroy()
     makeP3b()
 
@@ -201,11 +220,6 @@ def makeP2():
     entryDesk = tk.Entry(page2b, textvariable = p2desk, width=50)
     entryDesk.grid(row=1, column=1, columnspan=2)
 
-#    canvas1 = tk.Canvas(page2b, width = 400, height = 400)
-#    entry1 = tk.Entry(page2b)
-#    entry1.grid(row=1, column=1)
-#    tk.Label(page2b, text="Desks", width = 10).grid(row=0, column=0, columnspan=2)
-#    tk.Label(page2b, text="Day:", width = 10).grid(row=1, column=0)
     tk.Label(page2b, text = 'Day',font=('helvetica', 14)).grid(row=2, column=0, sticky="W")
     entry_day = tk.Entry(page2b, textvariable = p2day1, width=50)
     entry_day.grid(row=2, column=1, columnspan=2)
@@ -367,6 +381,7 @@ def flight_filter(df, org,dest,day_,hour_):
         fl4=fl3[fl3.Rls_HR.isin(hour)]
         return fl4
 
+#Other data functions
 def melt_file(file):
 
     '''
@@ -574,7 +589,7 @@ def makeP3a():
 
 def makeP3b():
     page3b = tk.Toplevel()
-    page3b.geometry('%dx%d+%d+%d' % (1180, 890, 400, 80))
+    page3b.geometry('%dx%d+%d+%d' % (1380, 890, 400, 80))
 
     p3frame = VerticalScrolledFrame(page3b)
     p3frame.grid(row=1, column=0, columnspan=2, rowspan=2)
@@ -612,26 +627,39 @@ def makeP3b():
     tk.Button(p3frame.interior, text = 'Visualize', command=lambda:graphdesk(deskNum.get())).grid(row=0, column=1, sticky='w'+'e')
     headers = []
 
-    for col in df2.columns:
+    #variables for testing
+    org=['ATL']
+    dest=[]
+    day_=[2,3]
+    hour_=[2]
+    ###
+    #actualy entries
+    #org = origList
+    #dest= destList
+    #day_ = day2List
+    #hour_ = hourList
+
+    filtered_flights = flight_filter(df, org,dest,day_,hour_)
+    #print(filtered_flights)
+    ###
+
+    for col in filtered_flights.columns:
         #print(col)
         headers.append(col)
     headers[0] = 'Index'
     headerindex = 0
 
     for i in headers:
-        tk.Label(p3frame.interior,text=i,font=("Helvetica", 8),bg = 'cyan',anchor= 'e',relief = 'solid').grid(row = 1, column = headerindex, sticky = 'w'+'e')
+        tk.Label(p3frame.interior,text=i,font=("Helvetica", 8),bg = 'lightgrey',anchor= 'e',relief = 'solid').grid(row = 1, column = headerindex, sticky = 'w'+'e')
         headerindex +=1
     #df2.to_csv('headless.csv', header=False, index=False)
-    listedDF = df2.values.tolist()
+    listedDF = filtered_flights.values.tolist()
     i_index = 2
     j_index = 0
 
     for i in listedDF:
         for j in i:
-            if i[0] < 101:
-                tk.Label(p3frame.interior, text=j,font=("Helvetica", 8),bg = 'lightgreen',anchor= 'e',relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
-            else:
-                tk.Label(p3frame.interior,text=j,font=("Helvetica", 8),bg = 'orange', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+            tk.Label(p3frame.interior, text=j,font=("Helvetica", 12),bg = 'white',anchor= 'e',relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
             j_index +=1
         i_index +=1
         j_index = 0
