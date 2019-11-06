@@ -149,7 +149,7 @@ def savep2dskInfo(page, p1, p2):
 
     print(deskList, day1List)
     page.destroy()
-    makeP3a()
+    makeP3a(deskList, day1List)
 
 #saves the information on page 2 for Flight side, then closes the window and moves onto page 3b, similar to above function for Desk and page 3a
 def savep2fltInfo(page, p3, p4, p5, p6):
@@ -287,7 +287,7 @@ def p3bclose(p3):
 
 def p3arefresh(p3):
     p3.destroy()
-    makeP3a()
+    makeP3a(deskList, day1List)
 
 def p3brefresh(p3):
     p3.destroy()
@@ -299,6 +299,7 @@ df= pd.read_csv('sep_2019 MELT.csv')
 
 
 #desk filter
+'''
 def desk_filter(day,desk):
     global df2
     desk_new=[]
@@ -307,8 +308,9 @@ def desk_filter(day,desk):
     df1= df[df.Day.isin(day)]
     df2=df1[df1.Desk.isin(desk_new)]  #needs to be a string
     return (df2)
+'''
 
-desk_filter([1],[3])
+#desk_filter([1],[3])
 #print(df2)
 
 
@@ -467,15 +469,17 @@ def graphdesk(desk):
     global date
     date = '10-01-2019'
     global desks
-    desks = ['M87', 1]
+    desks = []
+    desks.append(desk)
+    #desks.append(1)
     global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
     global desk_display_df
     desk_display_df = desk_display(melt, date, desks)
-    desk = 'M87'
+    #desk = 'M87'
     workload_dist(desk, newWindow)
     releases_dist(desk, newWindow)
-    cities_dist(desk_filter_data, newWindow)
+    cities_dist(desk_filter_data, newWindow, desk)
 
 
 class VerticalScrolledFrame(Frame):
@@ -526,7 +530,7 @@ class VerticalScrolledFrame(Frame):
 
 ###//Page 3 scrollbar class###
 
-def makeP3a():
+def makeP3a(deskList, day1List):
     page3a = tk.Toplevel()
     page3a.geometry('%dx%d+%d+%d' % (500, 880, 400, 80))
 
@@ -534,13 +538,51 @@ def makeP3a():
     p3frame.grid(row=1, column=0, columnspan=2, rowspan=2)
 
     deskNum=tk.StringVar()
-
+    #print(deskList)
+    #print(day1List)
+    file = 'sep_2019.xlsx'
+    global melt
+    #melt = melt_file(file)
+    global date
+    date = '10-01-2019'
+    #date = day1List
+    global desks
+    desks =['M87']
+    #desks = deskList
+    global desk_filter_data
+    desk_filter_data = desk_filter(melt, date, desks)
+    global desk_display_df
+    desk_display_df = desk_display(melt, date, desks)
     #visualization for graphs
     tk.Entry(p3frame.interior, textvariable=deskNum, width=6).grid(row=0, column=0, sticky='e')
     tk.Button(p3frame.interior, text = 'Visualize', command=lambda:graphdesk(deskNum.get())).grid(row=0, column=1, sticky='w')
     headers = []
+    headers.append('Index')
+    deskNum=tk.StringVar()
+    entry_deskNum = tk.Entry(p3frame.interior, textvariable=deskNum, width=6).grid(row=0, column=0)
+    button_graphdesk = tk.Button(p3frame.interior, text = 'Graph the desk!', command=lambda:graphdesk(deskNum.get())).grid(row=0, column=1, sticky='w'+'e')
+
+    #headers
+    headers = ['Desk#', 'Max. # of Releases/hr', 'Max # of Flights/hr', 'Max # of Stations/hr']
+    headerindex = 0
+
+    for i in headers:
+        tk.Label(p3frame.interior,text=i,font=("Helvetica", 12), bg = 'lightgrey',anchor= 'e',relief = 'solid').grid(row = 1, column = headerindex, sticky = 'w'+'e')
+        headerindex +=1
+
+    listedDF = desk_display_df.reset_index().values.tolist()
+    print(listedDF)
+    i_index = 2
+    j_index = 0
+    for i in listedDF:
+        for j in i:
+            tk.Label(p3frame.interior,text=j,font=("Helvetica", 16),bg = 'violet', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+            j_index +=1
+        i_index +=1
+        j_index = 0
 
     #Hardcoding random variables; will replace with max_XXX functions in next version
+    '''
     for x in range(100):
 
         a=random.randint(1,20)
@@ -557,51 +599,9 @@ def makeP3a():
             tk.Label(p3frame.interior, text=a, font=("Helvetica", 8),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row=x+1, column=1, sticky='w'+'e')
             tk.Label(p3frame.interior, text=b, font=("Helvetica", 8),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row=x+1, column=2, sticky='w'+'e')
             tk.Label(p3frame.interior, text=c, font=("Helvetica", 8),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row=x+1, column=3, sticky='w'+'e')
-
+    '''
 
     ##########
-
-#    df2.to_csv('headless.csv', header=False, index=False)
-#
-#    file = 'sep_2019.xlsx'
-#
-#    melt = melt_file(file)
-#    date = '10-01-2019'
-#    desks = ['M87', 1]
-#    desk_filter_data = desk_filter(melt, date, desks)
-#
-#    p3aRls = max_rls(event_hours(desk_filter_data))
-#    p3aFlt = max_flights(event_hours(desk_filter_data))
-#    p3aCit = max_cities(event_hours(desk_filter_data))
-#
-#    print(p3aRls)
-#    print(p3aFlt)
-#    print(p3aCit)
-
-#    tk.Label(page3, text="Desk #").grid(row=1, column=1, sticky="W"+"E")
-#    tk.Label(page3, text="Max # of Releases/hr").grid(row=1, column=2, sticky="W"+"E")
-#    tk.Label(page3, text="Max # of Flights/hr").grid(row=1, column=3, sticky="W"+"E")
-#    tk.Label(page3, text="Max # of Stations/hr").grid(row=1, column=4, sticky="W"+"E")
-    headers = ['Desk#', 'Max. # of Releases/hr', 'Max # of Flights/hr', 'Max # of Stations/hr']
-    headerindex = 0
-
-    for i in headers:
-        tk.Label(p3frame.interior,text=i,font=("Helvetica", 12), bg = 'cyan',anchor= 'e',relief = 'solid').grid(row = 1, column = headerindex, sticky = 'w'+'e')
-        headerindex +=1
-
-#    listedDF = df2.values.tolist()
-#    i_index = 2
-#    j_index = 0
-#
-#    for i in listedDF:
-#        for j in i:
-#            if i[0] < 101:
-#                tk.Label(p3frame.interior, text=j,font=("Helvetica", 8),bg = 'lightgreen',anchor= 'e',relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
-#            else:
-#                tk.Label(p3frame.interior,text=j,font=("Helvetica", 8),bg = 'orange', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
-#            j_index +=1
-#        i_index +=1
-#        j_index = 0
 
     tk.Button(page3a,text="Refresh", font=('helvetica', 12), command=lambda: p3arefresh(page3a)).grid(row=0,column=1, sticky="E")
     tk.Button(page3a, text="Back", font=('helvetica', 12), command=lambda: p3aclose(page3a)).grid(row=3, column=0, sticky="W")
@@ -890,13 +890,27 @@ def desk_filter(df, date, desk):
         desk: list of desks to pull (as strings)
     Return: new dataframe with filtered flights by desk and date
     '''
-
+    '''
     df_date = df.loc[df['Date'] == date]
     df_date_desk = df_date[df_date['Desk'].isin(desk)]
 
     return df_date_desk
+    '''
 
+    if date ==['']:
+        date = []
+    if desk ==['']:
+        desk = []
+    if date == []:
+        date = list(set(list(df['Date'])))
+    if desk == []:
+        desk = list(set(list(df['Desk'])))
+    #print('date', date)
+    #print('desk',desk)
+    df_date = df.loc[df['Date'] == date]
+    df_date_desk = df_date[df_date['Desk'].isin(desk)]
 
+    return df_date_desk
 def event_hours(df):
     '''
     Def: Generates dataframe of flight events each hour for one desk
@@ -905,6 +919,7 @@ def event_hours(df):
     Return: new dataframe fl_id indexes, columns for each hour,
         and what event happens in each hour (rls, dep, mon, arr)
     '''
+
 
     events = pd.DataFrame(columns = [i for i in range(0, 24)] + ['Desk'])
 
@@ -918,7 +933,11 @@ def event_hours(df):
         dep_hr = row['Dept_HR']
         arr_hr = row['Arr_HR']
         mon_hrs = [hr for hr in range(dep_hr + 1, arr_hr)]
-
+        if dep_hr < arr_hr:
+            mon_hrs = [hr for hr in range(dep_hr + 1, arr_hr)]
+        elif arr_hr < dep_hr:
+            mon_hrs = [hr for hr in range(dep_hr + 1, 24)]
+            mon_hrs.extend([hr for hr in range(0, arr_hr)])
         # hours 0 to 23
         hours_list = [0 for num in range(0, 24)]
 
@@ -1170,14 +1189,14 @@ def releases_dist(desk, window):
 
     return plt
 
-def cities_dist(df, window):
+def cities_dist(df, window, desk):
     '''
     Def: Graphs cities per hour over course of desk
     Inputs:
         df: desk_filter df
     Return: plot of cities per hour with conditional coloring
     '''
-    desk = 'M87'
+    #desk = 'M87'
     df = desk_filter(desk_filter_data, date, [desk])
     org_cities = df.filter(['Org','Desk','Rls_HR','Dept_HR','Arr_HR'])
     org_Rls_cities = org_cities.filter(['Org','Desk','Rls_HR']).rename(columns={"Org": "City"})
