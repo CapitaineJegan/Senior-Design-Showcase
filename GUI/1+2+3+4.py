@@ -547,8 +547,8 @@ def makeP3a(deskList, day1List):
     date = '10-01-2019'
     #date = day1List
     global desks
-    desks =['M87']
-    #desks = deskList
+    #desks =['M87']
+    desks = deskList
     global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
     global desk_display_df
