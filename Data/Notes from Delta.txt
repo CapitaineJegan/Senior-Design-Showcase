@@ -1,0 +1,8 @@
+change coloring scheme to column by column (different colors within a row)
+handoff for workload graph, no value at the moment
+need to see the frequency of flights
+50 total as a column
+get average by desks
+last week of Oct and 1st week of sept are easy
+9 hour vs 10 hour flight
+high volume/short distance
