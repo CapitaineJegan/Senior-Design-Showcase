@@ -1235,7 +1235,7 @@ def cities_dist(df, window, desk):
     cities = cities.sort_values(by= 'Hours')
     num_cities = cities['City'].tolist()
 
-    if all((x <= 10 for x in num_cities)) == True:
+    if all((x <= 12 for x in num_cities)) == True:
         city_color = 'green'
     else:
         city_color = 'red'
@@ -1248,7 +1248,7 @@ def cities_dist(df, window, desk):
     ###needs to be worked on
     #print(cities)
     rects1 = cities.plot.bar(x='Hours', y='City', color = city_color, ax=ax3)
-    ax4.plot(hrs, [10 for i in range(24)], color = 'blue')
+    ax4.plot(hrs, [12 for i in range(24)], color = 'blue')
     ax4.set_title('Cities Distribution')
     plt.show()
 
