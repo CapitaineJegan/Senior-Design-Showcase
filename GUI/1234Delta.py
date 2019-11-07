@@ -547,7 +547,7 @@ def makeP3a(deskList, day1List):
     date = '10-01-2019'
     #date = day1List
     global desks
-    desks =['P75', 'M87']
+    desks =['M87', 'M88','P59','P75','P61', 'P77']
     #desks = deskList
     global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
@@ -571,29 +571,29 @@ def makeP3a(deskList, day1List):
         headerindex +=1
 
     listedDF = desk_display_df.reset_index().values.tolist()
-    print(listedDF)
+    #print(listedDF)
     i_index = 2
     j_index = 0
     for i in listedDF:
         maxRls = int(i[1][0]+i[1][1])
         maxFlt = int(i[2][0]+i[2][1])
         maxSta = int(i[3][0]+i[3][1])
-        print(maxRls)
-        print(maxFlt)
-        print(maxSta)
+        #print(maxRls)
+        #print(maxFlt)
+        #print(maxSta)
         if maxRls >= 10 or maxSta >= 12:
             for j in i:
                 tk.Label(p3frame.interior,text=j,font=("Helvetica", 16),bg = 'red', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
                 j_index +=1
             i_index +=1
             j_index = 0
-        if maxRls < 8 or maxSta < 10:
+        elif maxRls < 8 or maxSta < 10:
             for j in i:
                 tk.Label(p3frame.interior,text=j,font=("Helvetica", 16),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
                 j_index +=1
             i_index +=1
             j_index = 0
-        if 8<= maxRls <10 or 10<= maxSta <12:
+        elif 8<= maxRls <10 or 10<= maxSta <12:
             for j in i:
                 tk.Label(p3frame.interior,text=j,font=("Helvetica", 16),bg = 'yellow', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
                 j_index +=1
