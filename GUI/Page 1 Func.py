@@ -1,3 +1,37 @@
+import tkinter as tk
+from tkinter import filedialog
+from tkinter import messagebox
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import ntpath
+from tabulate import tabulate
+from tkinter import *
+from pandas import DataFrame
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import csv
+import numpy
+import random
+
+global df1 ###test variable for desk_filter function###
+global p2aCategories # [Page2 LEFT] global list for desk entries 
+global p2bCategories # [Page2 RIGHT] global list for desk entries
+
+#global list values for the entries on Page 2
+global deskList
+global day1List
+global origList
+global destList
+global day2List
+global hourList
+
+root= tk.Tk()   # [PAGE 1] The root window, Page 1
+root.title('Upload Schedule')   # [PAGE 1] Title for Page 1
+
+filePath = tk.StringVar()   # [Page 1] variable for file path
+
+df= pd.read_csv('sep_2019 MELT.csv') #Test variable for fixing the dataframe file
+
 ##### [PAGE 1] Button message to check that the sheet name exists in the target file
 def verifysheet():
     print(sheetname.get()) #gets and prints the sheet names
