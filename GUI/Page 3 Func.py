@@ -1,3 +1,22 @@
+def p3aclose(p3):   # [PAGE 3a] Back button for Page 3a (DESK), closes the window and calls makeP2 to open Page 2
+    p3.destroy()
+    makeP2()
+    
+def p3bclose(p3):   # [PAGE 3b] Back button for Page 3b (FLIGHT), closes the window and calls makeP2 to open Page 2
+    p3.destroy()
+    makeP2()
+
+def p3arefresh(p3):   # [PAGE 3a] Back button for Page 3a (DESK), closes the window and opens it again
+    p3.destroy()
+    makeP3a()
+    
+def p3brefresh(p3):   # [PAGE 3b] Back button for Page 3b (FLIGHT), closes the window and opens it again
+    p3.destroy()
+    makeP3b()
+
+#### Page 3 functions ####
+###TK for Page 3 scrollbar class###
+    
 # [PAGE 3] desk filter
 def desk_filter(day,desk):
     global df2
