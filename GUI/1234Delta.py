@@ -470,13 +470,13 @@ def graphdesk(desk):
     date = '10-01-2019'
     global desks
     desks = []
-    #desks.append(desk)
+    desks.append(desk)
     #desks.append(1)
     global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
     global desk_display_df
     desk_display_df = desk_display(melt, date, desks)
-    desk = 'M87'
+    #desk = 'M87'
     workload_dist(desk, newWindow)
     releases_dist(desk, newWindow)
     cities_dist(desk_filter_data, newWindow, desk)
@@ -581,46 +581,40 @@ def makeP3a(deskList, day1List):
         #print(maxRls)
         #print(maxFlt)
         #print(maxSta)
-        if maxRls >= 10 or maxSta >= 12:
-            for j in i:
-                tk.Label(p3frame.interior,text=j,font=("Helvetica", 16),bg = 'red', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+        tk.Label(p3frame.interior,text=i[0],font=("Helvetica", 16),bg = 'white', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+        j_index +=1
+        if j_index == 1:
+            if maxRls >= 10:
+                tk.Label(p3frame.interior,text=i[1],font=("Helvetica", 16),bg = 'red', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
                 j_index +=1
-            i_index +=1
-            j_index = 0
-        elif maxRls < 8 or maxSta < 10:
-            for j in i:
-                tk.Label(p3frame.interior,text=j,font=("Helvetica", 16),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+            elif maxRls < 8:
+                tk.Label(p3frame.interior,text=i[1],font=("Helvetica", 16),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
                 j_index +=1
-            i_index +=1
-            j_index = 0
-        elif 8<= maxRls <10 or 10<= maxSta <12:
-            for j in i:
-                tk.Label(p3frame.interior,text=j,font=("Helvetica", 16),bg = 'yellow', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+            elif 8<= maxRls <10:
+                tk.Label(p3frame.interior,text=i[1],font=("Helvetica", 16),bg = 'yellow', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
                 j_index +=1
-            i_index +=1
-            j_index = 0
+        if j_index == 2:
+            if maxFlt >= 24:
+                tk.Label(p3frame.interior,text=i[2],font=("Helvetica", 16),bg = 'red', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+                j_index +=1
+            elif maxFlt < 20:
+                tk.Label(p3frame.interior,text=i[2],font=("Helvetica", 16),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+                j_index +=1
+            elif 20 <= maxFlt < 24:
+                tk.Label(p3frame.interior,text=i[2],font=("Helvetica", 16),bg = 'yellow', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+                j_index +=1
+        if j_index == 3:
+            if maxSta >= 12:
+                tk.Label(p3frame.interior,text=i[3],font=("Helvetica", 16),bg = 'red', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+                j_index = 0
+            elif maxSta < 10:
+                tk.Label(p3frame.interior,text=i[3],font=("Helvetica", 16),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+                j_index = 0
+            elif 10<= maxSta <12:
+                tk.Label(p3frame.interior,text=i[3],font=("Helvetica", 16),bg = 'yellow', anchor = 'e', relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+                j_index = 0
 
-    #Hardcoding random variables; will replace with max_XXX functions in next version
-    '''
-    for x in range(100):
-
-        a=random.randint(1,20)
-        b=random.randint(1,20)
-        c=random.randint(1,20)
-
-        if a > 10 or b > 10 or c > 5:
-            tk.Label(p3frame.interior, text=random.randint(1,100), font=("Helvetica", 8),bg = 'pink', anchor = 'e', relief = 'solid').grid(row=x+1, column=0, sticky='w'+'e')
-            tk.Label(p3frame.interior, text=a, font=("Helvetica", 8),bg = 'pink', anchor = 'e', relief = 'solid').grid(row=x+1, column=1, sticky='w'+'e')
-            tk.Label(p3frame.interior, text=b, font=("Helvetica", 8),bg = 'pink', anchor = 'e', relief = 'solid').grid(row=x+1, column=2, sticky='w'+'e')
-            tk.Label(p3frame.interior, text=c, font=("Helvetica", 8),bg = 'pink', anchor = 'e', relief = 'solid').grid(row=x+1, column=3, sticky='w'+'e')
-        else:
-            tk.Label(p3frame.interior, text=random.randint(1,100), font=("Helvetica", 8),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row=x+1, column=0, sticky='w'+'e')
-            tk.Label(p3frame.interior, text=a, font=("Helvetica", 8),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row=x+1, column=1, sticky='w'+'e')
-            tk.Label(p3frame.interior, text=b, font=("Helvetica", 8),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row=x+1, column=2, sticky='w'+'e')
-            tk.Label(p3frame.interior, text=c, font=("Helvetica", 8),bg = 'lightgreen', anchor = 'e', relief = 'solid').grid(row=x+1, column=3, sticky='w'+'e')
-    '''
-
-    ##########
+        i_index +=1
 
     tk.Button(page3a,text="Refresh", font=('helvetica', 12), command=lambda: p3arefresh(page3a)).grid(row=0,column=1, sticky="E")
     tk.Button(page3a, text="Back", font=('helvetica', 12), command=lambda: p3aclose(page3a)).grid(row=3, column=0, sticky="W")
