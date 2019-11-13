@@ -173,14 +173,14 @@ def savep2fltInfo(page, p3, p4, p5, p6):
     day2List = list(p5.split(","))
     hourList = list(p6.split(","))
 
-#    for orig in origList:
- #       if len(orig) != 3:
-  #          tk.messagebox.showerror('Error', 'Please enter a valid origin')
+    for orig in origList:
+        if len(orig) != 3:
+            tk.messagebox.showerror('Error', 'Please enter a valid origin')
     if origList == ['']:
          origList = []
-#    for dest in destList:
-#        if len(dest) != 3:
-#            tk.messagebox.showerror('Error', 'Please enter a valid destination')'''
+    for dest in destList:
+        if len(dest) != 3:
+           tk.messagebox.showerror('Error', 'Please enter a valid destination')
     if destList == ['']:
         destList = []
     for day in day2List:
@@ -298,20 +298,6 @@ def p3brefresh(p3):
 df= pd.read_csv('sep_2019 MELT.csv')
 
 
-#desk filter
-'''
-def desk_filter(day,desk):
-    global df2
-    desk_new=[]
-    for i in desk:
-        desk_new.append(str(i))
-    df1= df[df.Day.isin(day)]
-    df2=df1[df1.Desk.isin(desk_new)]  #needs to be a string
-    return (df2)
-'''
-
-#desk_filter([1],[3])
-#print(df2)
 
 
 #flight filter
@@ -541,18 +527,23 @@ def makeP3a(deskList, day1List):
 
     p3frame = VerticalScrolledFrame(page3a)
     p3frame.grid(row=1, column=0, columnspan=2, rowspan=2)
-
+    for i in deskList:
+        try:
+            i = int(i)
+        except:
+            i = i
     deskNum=tk.StringVar()
-    #print(deskList)
-    #print(day1List)
+    print(deskList)
+    print(day1List)
     file = 'sep_2019.xlsx'
     global melt
     melt = melt_file(file)
     global date
-    date = '10-01-2019'
+    date = '2019-10-01'
     #date = day1List
     global desks
-    desks =['M87', 'M88','P59','P75','P61', 'P77',1]
+    #desks =['M87', 'M88','P59','P75','P61', 'P77',1]
+    desks = [1]
     #desks = deskList
     global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
@@ -800,22 +791,6 @@ def makeP3b(origList,destList,day2List,hourList):
 #    tk.Button(page3,text="Refresh", font=('helvetica', 12), command=lambda: p3refresh(page3)).grid(row=0,column=4, sticky="W"+"E")
 #    tk.Button(page3, text="Back", font=('helvetica', 12), command=lambda: p3close(page3)).grid(row=3, column=0)
 
-#def checkday(day):
-#    try:
-#        int(day)
-#    except:
-#        tk.messagebox.showerror('Error', 'Please enter an integer for day of the month')
-#    if int(day)<=0 or int(day)>31:
-#        tk.messagebox.showerror('Error', 'Please enter a valid number for day of the month')
-#
-#
-#def checkhour(hour):
-#    try:
-#        int(hour)
-#    except:
-#        tk.messagebox.showerror('Error', 'Please enter an integer for hour')
-#    if int(hour)<0 or int(hour)>23:
-#        tk.messagebox.showerror('Error', 'Please enter a valid number for hour')
 
 #canvas1 = tk.Canvas(root, width = 400, height = 400, bg = 'lightsteelblue2', relief = 'raised')
 #canvas1.grid()
