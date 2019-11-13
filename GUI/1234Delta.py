@@ -460,7 +460,12 @@ def graphdesk(desk):
     newWindow.title("Visualizer")
 
     newWindow.geometry('%dx%d+%d+%d' % (1800, 800, 100, 100))
-
+    print(desk, type(desk))
+    try:
+        desk = int(desk)
+    except:
+        return desk
+    print(desk, type(desk))
     ###Jake's 'Graph from Data' code###
     file = 'sep_2019.xlsx'
 
@@ -470,13 +475,13 @@ def graphdesk(desk):
     date = '10-01-2019'
     global desks
     desks = []
-    desks.append(desk)
-    #desks.append(1)
+    #desks.append(desk)
+    desks.append(1)
     global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
     global desk_display_df
     desk_display_df = desk_display(melt, date, desks)
-    #desk = 'M87'
+    desk = 1
     workload_dist(desk, newWindow)
     releases_dist(desk, newWindow)
     cities_dist(desk_filter_data, newWindow, desk)
@@ -547,7 +552,7 @@ def makeP3a(deskList, day1List):
     date = '10-01-2019'
     #date = day1List
     global desks
-    desks =['M87', 'M88','P59','P75','P61', 'P77']
+    desks =['M87', 'M88','P59','P75','P61', 'P77',1]
     #desks = deskList
     global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
@@ -656,34 +661,42 @@ def makeP3b(origList,destList,day2List,hourList):
     day_ = day2List
     hour_ = hourList
 
+    global filtered_flights
+    colList = ['Date', 'Flt', 'Org', 'Dst', 'Eqt', 'MILES', 'Dept_Time', 'Arr_Time', 'Rls_Time', 'Desk']
     filtered_flights = flight_filter(df, org,dest,day_,hour_)
     print('flight filter entries',org,dest,day_,hour_)
+    filtered_flights = filtered_flights.filter(items = colList)
     print(filtered_flights)
     ###
 
     for col in filtered_flights.columns:
         #print(col)
         headers.append(col)
-    headers[0] = 'Index'
+    #headers[0] = 'Index'
     headerindex = 0
 
     for i in headers:
-        tk.Label(p3frame.interior,text=i,font=("Helvetica", 8),bg = 'lightgrey',anchor= 'e',relief = 'solid').grid(row = 1, column = headerindex, sticky = 'w'+'e')
+        tk.Label(p3frame.interior,text=i,font=("Helvetica", 16),bg = 'lightgrey',anchor= 'e',relief = 'solid').grid(row = 1, column = headerindex, sticky = 'w'+'e')
         headerindex +=1
     #df2.to_csv('headless.csv', header=False, index=False)
     listedDF = filtered_flights.values.tolist()
     i_index = 2
     j_index = 0
-
+    for i in listedDF:
+        i[1]=int(i[1])
+        i[5]=int(i[5])
+        i[6]=i[6][11:16]
+        i[7]=i[7][11:16]
+        i[8]=i[8][11:16]
     for i in listedDF:
         for j in i:
-            tk.Label(p3frame.interior, text=j,font=("Helvetica", 12),bg = 'white',anchor= 'e',relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
+            tk.Label(p3frame.interior, text=j,font=("Helvetica", 16),bg = 'white',anchor= 'e',relief = 'solid').grid(row = i_index, column = j_index, sticky = 'w'+'e')
             j_index +=1
         i_index +=1
         j_index = 0
 #    tk.Button(page3, text="More...", font=('helvetica', 12), command=lambda: moreGrafix).grid(row=2, column=0)
-    tk.Button(page3b,text="Refresh", font=('helvetica', 12), command=lambda: p3brefresh(page3b)).grid(row=0,column=1, sticky="E")
-    tk.Button(page3b, text="Back", font=('helvetica', 12), command=lambda: p3bclose(page3b)).grid(row=3, column=0, sticky="W")
+    tk.Button(page3b,text="Refresh", font=('helvetica', 16), command=lambda: p3brefresh(page3b)).grid(row=0,column=1, sticky="E")
+    tk.Button(page3b, text="Back", font=('helvetica', 16), command=lambda: p3bclose(page3b)).grid(row=3, column=0, sticky="W")
 
 #    # create a vertical scrollbar for scrolling it
 #    vscrollbar = tk.Scrollbar(page3)
