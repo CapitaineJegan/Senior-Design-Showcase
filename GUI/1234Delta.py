@@ -43,6 +43,14 @@ global hourList
 #day2List = []
 #hourList = []
 
+
+##### A functin to convert num only strings into integers
+def converttoInt(strVar):
+    try:
+        intVar = int(strVar)
+        return intVar
+    except:
+        return strVar
 #####Button message to check that the sheet name exists in the target file
 def verifysheet():
     print(sheetname.get())
@@ -527,13 +535,12 @@ def makeP3a(deskList, day1List):
 
     p3frame = VerticalScrolledFrame(page3a)
     p3frame.grid(row=1, column=0, columnspan=2, rowspan=2)
-    for i in deskList:
-        try:
-            i = int(i)
-        except:
-            i = i
-    deskNum=tk.StringVar()
     print(deskList)
+    newList = []
+    for i in deskList:
+        newList.append(converttoInt(i))
+    deskNum=tk.StringVar()
+    print(newList)
     print(day1List)
     file = 'sep_2019.xlsx'
     global melt
@@ -543,8 +550,8 @@ def makeP3a(deskList, day1List):
     #date = day1List
     global desks
     #desks =['M87', 'M88','P59','P75','P61', 'P77',1]
-    desks = [1]
-    #desks = deskList
+    #desks = [1]
+    desks = newList
     global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
     global desk_display_df
