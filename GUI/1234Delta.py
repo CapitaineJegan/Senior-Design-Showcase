@@ -54,6 +54,8 @@ def converttoInt(strVar):
 #####Button message to check that the sheet name exists in the target file
 def verifysheet():
     print(sheetname.get())
+    global shtName
+    shtName = sheetname.get()
     print(xl.sheet_names)
     is_verified = False
     for i in xl.sheet_names:
@@ -87,7 +89,10 @@ def getCSV():#for taking the csv files in the first page button
 
 
     # create dataframes from Excel
-    df = pd.read_excel(import_file_path) #CHANGE FILE AND SHEET NAMES
+    if shtName != '':
+        df = pd.read_excel(import_file_path, sheet_name = shtName)
+    else:
+        df = pd.read_excel(import_file_path) #CHANGE FILE AND SHEET NAMES
 
     # create airport list
     aiport_list = ['ABE', 'ABQ', 'AGS', 'ALB', 'ATL', 'ATW', 'AUS', 'AVL', 'AVP', 'BDL', 'BGR', 'BHM', 'BIL', 'BIS', 'BNA', 'BOI', 'BOS', 'BTR', 'BTV', 'BUF', 'BUR', 'BWI', 'BZN', 'CAE', 'CAK', 'CHA', 'CHO', 'CHS', 'CID', 'CLE', 'CLT', 'CMH', 'COS', 'CRW', 'CVG', 'DAB', 'DAL', 'DAY', 'DCA', 'DEN', 'DFW', 'DSM', 'DTW', 'ECP', 'EGE', 'ELP', 'EVV', 'EWR', 'EYW', 'FAR', 'FAY', 'FCA', 'FLL', 'FNT', 'FSD', 'GEG', 'GNV', 'GPT', 'GRB', 'GRR', 'GSO', 'GSP', 'GTF', 'HDN', 'HOU', 'HPN', 'HSV', 'IAD', 'IAH', 'ICT', 'ILM', 'IND', 'JAC', 'JAN', 'JAX', 'JFK', 'LAS', 'LAX', 'LEX', 'LFT', 'LGA', 'LGB', 'LIT', 'MCI', 'MCO', 'MDT', 'MDW', 'MEM', 'MHT', 'MIA', 'MKE', 'MLB', 'MOB', 'MSN', 'MSO', 'MSP', 'MSY', 'MTJ', 'MYR', 'OAK', 'OKC', 'OMA', 'ONT', 'ORD', 'ORF', 'PBI', 'PDX', 'PHF', 'PHL', 'PHX', 'PIT', 'PNS', 'PSC', 'PSP', 'PVD', 'PWM', 'RAP', 'RDU', 'RIC', 'RNO', 'ROA', 'ROC', 'RSW', 'SAN', 'SAT', 'SAV', 'SBN', 'SDF', 'SEA', 'SFO', 'SJC', 'SLC', 'SMF', 'SNA', 'SRQ', 'STL', 'SYR', 'TLH', 'TPA', 'TRI', 'TUL', 'TUS', 'TVC', 'TYS', 'VPS', 'XNA', 'YEG', 'YUL', 'YVR', 'YWG', 'YXE', 'YYC', 'YYZ']
@@ -549,9 +554,9 @@ def makeP3a(deskList, day1List):
     date = '2019-10-01'
     #date = day1List
     global desks
-    #desks =['M87', 'M88','P59','P75','P61', 'P77',1]
+    desks =['M87', 'M88','P59','P75','P61', 'P77']
     #desks = [1]
-    desks = newList
+    #desks = newList
     global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
     global desk_display_df
