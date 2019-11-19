@@ -457,13 +457,9 @@ def graphdesk(desk):
     #global desk
     newWindow = tk.Toplevel()
     newWindow.title("Visualizer")
-
-    newWindow.geometry('%dx%d+%d+%d' % (1800, 800, 100, 100))
     print(desk, type(desk))
-    try:
-        desk = int(desk)
-    except:
-        return desk
+    desk = converttoInt(desk)
+    newWindow.geometry('%dx%d+%d+%d' % (1800, 800, 100, 100))
     print(desk, type(desk))
     ###Jake's 'Graph from Data' code###
     file = 'sep_2019.xlsx'
@@ -474,13 +470,13 @@ def graphdesk(desk):
     date = '10-01-2019'
     global desks
     desks = []
-    #desks.append(desk)
-    desks.append(1)
+    desks.append(desk)
+    #desks.append(1)
     global desk_filter_data
     desk_filter_data = desk_filter(melt, date, desks)
     global desk_display_df
     desk_display_df = desk_display(melt, date, desks)
-    desk = 1
+    #desk = 1
     workload_dist(desk, newWindow)
     releases_dist(desk, newWindow)
     cities_dist(desk_filter_data, newWindow, desk)
